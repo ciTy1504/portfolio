@@ -419,6 +419,14 @@
     scrollTrigger: { trigger: '.about__lead', start: 'top 78%', end: 'bottom 42%', scrub: true },
   });
 
+  /* Background detail: contour fields drift slower than content */
+  document.querySelectorAll('.topo').forEach((el) => {
+    gsap.fromTo(el, { yPercent: -6 }, {
+      yPercent: 6, ease: 'none',
+      scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true },
+    });
+  });
+
   /* Experience: the rail fills as you move through the roles */
   gsap.fromTo('.timeline__fill', { scaleY: 0 }, {
     scaleY: 1, ease: 'none',
