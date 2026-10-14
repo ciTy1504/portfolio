@@ -493,6 +493,10 @@ html.lenis, html.lenis body { height: auto; }
 .role__list { margin-top: 20px; display: grid; gap: 10px; max-width: 68ch; }
 .role__list li { position: relative; padding-left: 22px; color: var(--ink-2); }
 .role__list li::before { content: ""; position: absolute; left: 0; top: .8em; width: 10px; height: 2px; background: var(--accent); }
+.role__photo { margin-top: 28px; max-width: 680px; }
+.role__photo picture { display: block; overflow: hidden; border-radius: var(--r-tile); aspect-ratio: 1281 / 915; background: var(--surface); }
+.role__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.role__photo:hover img { transform: scale(1.02); }
 @media (max-width: 640px) { .role { grid-template-columns: 1fr; } }
 
 /* ---------- Research: bento ---------- */
