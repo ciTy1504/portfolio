@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đinh Công Thái - AI Engineer</title>
+  <meta name="description" content="Đinh Công Thái, AI engineer at Viettel Cyber Security. NLP, RAG, computer vision and LLMs for cybersecurity, built for banking, government and media." />
+  <meta property="og:title" content="Đinh Công Thái - AI Engineer" />
+  <meta property="og:description" content="NLP, RAG, computer vision and LLMs for cybersecurity, built for banking, government and media." />
+  <meta property="og:image" content="/assets/images/profile-900.jpg" />
+  <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/assets/images/portfolio_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    // Motion layer only when the visitor hasn't asked for reduced motion. main.js removes it again if GSAP fails to load.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    // Failsafe: never leave the hero hidden if scripts don't arrive.
+    setTimeout(function () { if (!window.__motionReady) document.documentElement.classList.remove('motion'); }, 3500);
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="top-sentinel" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="mark" href="#top" aria-label="Back to top">ĐCT<span>.</span></a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#research">Research</a>
+        <a href="#background">Background</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="topbar__actions">
+        <button class="theme-btn" id="theme-toggle" type="button">Dark mode</button>
+        <a class="btn btn--small" href="/assets/resume.pdf" download>Résumé</a>
+        <button class="menu-btn" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: editorial headline on the left, a live WebGL sculpture on the right -->
+    <section class="hero wrap" id="top">
+      <div class="hero__copy">
+        <p class="hero__eyebrow" data-intro>AI Engineer · Viettel Cyber Security</p>
+        <h1 class="hero__title" data-split-words>AI that reads, sees and <em>defends.</em></h1>
+        <p class="hero__lede" data-intro>
+          I’m Đinh Công Thái, and I build NLP, computer vision and LLM systems that hold up in production.
+        </p>
+        <div class="hero__cta" data-intro>
+          <a class="btn" href="#work">See selected work <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero__stage" id="hero-stage">
+        <canvas id="sculpture" aria-hidden="true"></canvas>
+      </div>
+    </section>
+
+    <!-- The one marquee on the page: reverses with scroll direction -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Natural language processing</span><span>Retrieval-augmented generation</span><span>Computer vision</span><span>LLMs for cybersecurity</span><span>Data design</span><span>Agent trajectories</span>
+        <span>Natural language processing</span><span>Retrieval-augmented generation</span><span>Computer vision</span><span>LLMs for cybersecurity</span><span>Data design</span><span>Agent trajectories</span>
+      </div>
+    </div>
+
+    <!-- About: statement lights up word by word as you read -->
+    <section class="section about wrap" id="about">
+      <h2 class="section__title reveal">About</h2>
+      <div class="about__top">
+        <p class="about__lead" data-words>
+        I work at Viettel Cyber Security and graduated in Computer Science from Hanoi University of Science and
+        Technology, where I do research at the
+        <a href="https://www.facebook.com/profile.php?id=61567861203820" target="_blank" rel="noreferrer">AI4LIFE Research Center</a>
+        under Assoc. Prof. Dr.
+        <a href="https://soict.hust.edu.vn/pgs-ts-nguyen-phi-le.html" target="_blank" rel="noreferrer">Nguyễn Phi Lê</a>.
+      </p>
+        <figure class="about__photo reveal">
+          <picture>
+            <source srcset="/assets/images/profile-900.webp" type="image/webp" />
+            <img src="/assets/images/profile-900.jpg" width="900" height="1200" loading="lazy" data-parallax alt="Portrait of Đinh Công Thái leaning on a motorbike in a park" />
+          </picture>
+        </figure>
+      </div>
+      <div class="about__grid">
+        <div class="about__text reveal">
+          <p>
+            My work sits across Natural Language Processing, data design and Computer Vision. I work the full ML
+            lifecycle: designing datasets, collecting and cleaning data, feature engineering, then training,
+            fine-tuning, evaluating and deploying models.
+          </p>
+          <p>
+            I’m planning to pursue a Master’s degree to go deeper into AI, and I’m always keen to join
+            collaborative projects that turn research into something people actually use.
+          </p>
+          <p class="about__aside">Off the keyboard: reading research, travelling, learning languages and solving puzzles.</p>
+        </div>
+        <dl class="focus">
+          <div class="reveal">
+            <dt>NLP &amp; LLMs</dt>
+            <dd>RAG, tool-using agents, CPT and long-context data, agent trajectories, PhoBERT fine-tuning</dd>
+          </div>
+          <div class="reveal">
+            <dt>Data design</dt>
+            <dd>Knowledge graphs, versioned legal corpora, MongoDB and Neo4j</dd>
+          </div>
+          <div class="reveal">
+            <dt>Computer vision</dt>
+            <dd>Detection, tracking, OCR, real-time video pipelines</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Work: pinned section, vertical scroll pans the card track sideways -->
+    <section class="work" id="work">
+      <div class="work__pin">
+        <div class="work__head wrap">
+          <h2 class="section__title">Selected work</h2>
+          <div class="work__meta">
+            <p class="work__intro">
+              Eight projects across legal, banking, media and security. Most were built for industry partners under
+              NDA, so the summaries are public and the internals are for an interview.
+            </p>
+            <div class="filters" role="group" aria-label="Filter projects">
+              <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">All <span>8</span></button>
+              <button type="button" class="chip" data-filter="nlp" aria-pressed="false">NLP &amp; LLM <span>5</span></button>
+              <button type="button" class="chip" data-filter="data" aria-pressed="false">Data <span>2</span></button>
+              <button type="button" class="chip" data-filter="vision" aria-pressed="false">Vision <span>1</span></button>
+              <button type="button" class="chip" data-filter="security" aria-pressed="false">Security <span>1</span></button>
+              <button type="button" class="chip" data-filter="personal" aria-pressed="false">Personal <span>1</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="work__viewport" tabindex="0" role="region" aria-label="Projects">
+          <ol class="work__track" id="projects">
+            <li class="pcard pcard--ink" data-cat="nlp">
+              <div class="pcard__top"><span class="pcard__idx">01</span><span>UBND Thanh Hóa · Government</span></div>
+              <p class="pcard__figure pcard__figure--outline" aria-hidden="true">01</p>
+              <h3 class="pcard__title">Draft-law advisory chatbot</h3>
+              <p class="pcard__sum">Reviews draft laws for Thanh Hóa’s People’s Committee, surfacing cited and uncited statutes with fully referenced recommendations.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  A hybrid AI system that automates and strengthens the legislative review process for Thanh Hóa’s
+                  People’s Committee. A dual-workflow pipeline runs in parallel: one flow analyses explicitly cited laws
+                  via RAG, while a multi-label classifier proactively surfaces relevant statutes the draft never mentions.
+                  Findings from an internal legal database and real-time online sources are synthesised into fully cited
+                  recommendations, cutting manual effort and improving the accuracy of legal analysis.
+                </p>
+                <ul class="tags">
+                  <li>Hybrid AI (RAG + classification)</li><li>LLM reasoning</li><li>HyDE</li><li>Hybrid search</li>
+                  <li>Multi-label classification</li><li>OCR</li><li>Vector DB</li><li>Real-time web scraping</li><li>FastAPI</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard" data-cat="data">
+              <div class="pcard__top"><span class="pcard__idx">02</span><span>Vietcombank · Banking</span></div>
+              <p class="pcard__figure pcard__figure--outline" aria-hidden="true">02</p>
+              <h3 class="pcard__title">Version-aware legal knowledge base</h3>
+              <p class="pcard__sum">Tracks both the original and the currently effective text of every legal clause, in MongoDB and Neo4j.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  The foundational knowledge base for VCB’s evolving legal documents, built on a hybrid data model:
+                  MongoDB for content, Neo4j for relationships. Its core is a dynamic versioning system that keeps both the
+                  <em>static</em> (original) and <em>dynamic</em> (currently effective) version of every legal clause.
+                  That guarantees temporal accuracy for every downstream application and a single source of truth for compliance.
+                </p>
+                <ul class="tags">
+                  <li>MongoDB</li><li>Neo4j</li><li>Graph data modelling</li><li>Data versioning</li><li>Python</li><li>FastAPI</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard" data-cat="nlp">
+              <div class="pcard__top"><span class="pcard__idx">03</span><span>Vietcombank · Banking</span></div>
+              <p class="pcard__figure pcard__figure--outline" aria-hidden="true">03</p>
+              <h3 class="pcard__title">Internal legal &amp; compliance chatbot</h3>
+              <p class="pcard__sum">Gives VCB staff instant legal answers that always come from the regulation currently in force.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  The main interface to the version-aware knowledge base, giving VCB staff instant, accurate legal answers.
+                  Because the RAG pipeline queries through the versioning layer, it always retrieves the currently effective
+                  text, removing ambiguity from outdated regulations and keeping every answer compliant.
+                </p>
+                <ul class="tags">
+                  <li>Version-aware RAG</li><li>LLMs (GPT / Qwen)</li><li>HyDE</li><li>Hybrid search</li><li>Vector embeddings</li><li>FastAPI</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard pcard--ink" data-cat="nlp data">
+              <div class="pcard__top"><span class="pcard__idx">04</span><span>MB Bank · Banking</span></div>
+              <p class="pcard__figure pcard__figure--outline" aria-hidden="true">04</p>
+              <h3 class="pcard__title">Conversational data-analytics agent</h3>
+              <p class="pcard__sum">An LLM agent that lets MB Bank staff query business data, run analyses and get charts in conversation.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  An intelligent data agent that gives MB Bank employees conversational access to complex business
+                  intelligence. A Toolformer-style LLM orchestrates the work:
+                </p>
+                <ol class="steps">
+                  <li>Retrieves insights from a hybrid knowledge base of structured data, metadata and unstructured reports.</li>
+                  <li>Extracts the key metrics and figures.</li>
+                  <li>Runs custom analytical functions (trends, growth) written in Pandas.</li>
+                  <li>Answers with charts, and points users to the right source documents.</li>
+                </ol>
+                <ul class="tags">
+                  <li>Tool-augmented LLM</li><li>Hybrid RAG (data + docs)</li><li>Pandas</li><li>Plotly</li><li>Python</li><li>FastAPI</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard pcard--accent" data-cat="nlp">
+              <div class="pcard__top"><span class="pcard__idx">05</span><span>VNPT-Media · Media</span></div>
+              <p class="pcard__figure">0.9892<small>F1 in production</small></p>
+              <h3 class="pcard__title">Real-time toxic comment moderation</h3>
+              <p class="pcard__sum">Rules, fine-tuned PhoBERT and LLMs in cascade, screening high-volume comments for hate speech and spam.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  A multi-stage, real-time pipeline for high-volume user comments. Rule-based filters first screen for
+                  profanity and spam signals (links, phone numbers). Clean comments then pass through a cascade of
+                  specialised classifiers (fine-tuned PhoBERT and LLMs) for nuanced detection of hate speech,
+                  incitement and other sensitive topics. Reached an F1-score of 0.9892 in production at low latency.
+                </p>
+                <ul class="tags">
+                  <li>Cascaded models</li><li>Regex filtering</li><li>PhoBERT fine-tuning</li><li>Spam detection</li><li>PyTorch</li><li>FastAPI</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard pcard--accent" data-cat="vision">
+              <div class="pcard__top"><span class="pcard__idx">06</span><span>VNPT-Media · Media</span></div>
+              <p class="pcard__figure">25<small>fps on live TV</small></p>
+              <h3 class="pcard__title">Live video content moderation pipeline</h3>
+              <p class="pcard__sum">Detects and redacts sensitive content in live TV streams with YOLOv12, OCR and object tracking.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  An end-to-end, multi-modal pipeline for detecting sensitive content in live TV streams. Each frame is
+                  analysed with YOLOv12l for objects and OCR for on-screen text, with an object tracker for temporal
+                  consistency. Optimised to run at 25 FPS, it logs bounding boxes and timestamps and feeds a
+                  post-processing tool that redacts content (blurring, overlays) without degrading the original stream.
+                </p>
+                <ul class="tags">
+                  <li>YOLOv12</li><li>OCR</li><li>Object tracking</li><li>Real-time video</li><li>Content redaction</li><li>PyTorch</li><li>OpenCV</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard pcard--accent" data-cat="security">
+              <div class="pcard__top"><span class="pcard__idx">07</span><span>Security</span></div>
+              <p class="pcard__figure">99.24%<small>detection accuracy</small></p>
+              <h3 class="pcard__title">Multi-source malicious domain detection</h3>
+              <p class="pcard__sum">A deep model over web, network and lexical features, with an XGBoost fail-safe for availability.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  A resilient, multi-layered system for real-time malicious domain detection. The primary deep learning
+                  model uses features engineered from crawled web content (HTML, headers), network metadata (WHOIS, IP
+                  reputation) and lexical analysis. A parallel XGBoost model acts as a fail-safe, keeping protection
+                  available even if the primary pipeline errors.
+                </p>
+                <ul class="tags">
+                  <li>Multi-source features</li><li>PyTorch</li><li>XGBoost fail-safe</li><li>Web crawling</li><li>MLOps</li><li>Docker</li>
+                </ul>
+                <p class="nda">Under NDA. Happy to walk through the architecture and my role in an interview.</p>
+              </template>
+            </li>
+
+            <li class="pcard" data-cat="personal nlp">
+              <div class="pcard__top"><span class="pcard__idx">08</span><span>Personal project · Live</span></div>
+              <p class="pcard__figure">8<small>learning modules</small></p>
+              <h3 class="pcard__title">AI-powered language learning app</h3>
+              <p class="pcard__sum">A full-stack learning platform with a conversational AI tutor that adapts to each learner.</p>
+              <button type="button" class="pcard__more">Read the details <span aria-hidden="true">→</span></button>
+              <template class="pcard__full">
+                <p>
+                  A full-stack platform that builds a personalised curriculum for each learner. Eight modules cover
+                  everything from interactive grammar drills and pronunciation feedback to a conversational AI tutor. It
+                  tracks performance, finds weak points, and adapts future exercises to target them.
+                </p>
+                <ul class="tags">
+                  <li>React</li><li>Tailwind</li><li>Node.js</li><li>Express</li><li>Vector embeddings</li><li>LLM APIs</li>
+                </ul>
+                <p class="project__links">
+                  <a class="link-arrow" href="https://engchi-app.web.app/" target="_blank" rel="noreferrer">Open the live app <span aria-hidden="true">↗</span></a>
+                  <a class="link-arrow" href="https://www.tiktok.com/@koong_t/video/7694247700233162004" target="_blank" rel="noreferrer">Watch the demo on TikTok <span aria-hidden="true">↗</span></a>
+                </p>
+              </template>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience: the timeline draws itself as you scroll -->
+    <section class="section wrap" id="experience">
+      <h2 class="section__title reveal">Experience</h2>
+      <div class="timeline">
+        <span class="timeline__rail" aria-hidden="true"><span class="timeline__fill"></span></span>
+        <article class="role reveal">
+          <p class="role__period">Oct 2025 - Present</p>
+          <div class="role__content">
+            <h3 class="role__title">Junior AI Engineer</h3>
+            <p class="role__org">Viettel Cyber Security</p>
+            <ul class="role__list">
+              <li>Built ViScam, a dataset on Vietnamese scams, and wrote the paper that introduces it, submitted to EACL 2027 (CORE A).</li>
+              <li>Worked on fine-tuning LLMs for cybersecurity, owning the training data: continued pre-training (CPT) corpora, long-context data and optimised trajectories for agents.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="role reveal">
+          <p class="role__period">Oct 2024 - Present</p>
+          <div class="role__content">
+            <h3 class="role__title">AI Engineer</h3>
+            <p class="role__org">AI4LIFE Research Center, HUST &amp; industry partners</p>
+            <ul class="role__list">
+              <li>Developed and deployed end-to-end AI solutions for industry partners including VCB, MBB, VNPT and SCS.</li>
+              <li>Engineered NLP chatbots with Retrieval-Augmented Generation and LLMs for legal and statistical analysis.</li>
+              <li>Built real-time video analysis pipelines with YOLOv12 for sensitive content detection, reaching an mAP above 70%.</li>
+              <li>Designed ML models (XGBoost, Isolation Forest) for network anomaly and malicious domain detection.</li>
+              <li>Modelled complex relationships in legal document storage with the Neo4j graph database.</li>
+              <li>Shipped production-ready applications within an Agile team.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Research & community: bento, photos drift inside their frames -->
+    <section class="section wrap" id="research">
+      <h2 class="section__title reveal">Research &amp; community</h2>
+      <div class="bento">
+        <article class="tile tile--paper reveal">
+          <p class="tile__label">Publication <span class="badge">Accepted</span></p>
+          <h3 class="paper__title">
+            SAID: Speaker-Invariant Adversarial Identity Disentanglement for Robust Low-Resource Speaker Verification
+          </h3>
+          <p class="paper__venue">
+            Proceedings of CSoNet 2026, the 15th International Conference on Computational Science and Network
+            Intelligence. Ho Chi Minh City, November 16-18, 2026.
+          </p>
+        </article>
+
+        <figure class="tile tile--photo tile--photo-a reveal">
+          <picture>
+            <source srcset="/assets/images/bootcamp-1.webp" type="image/webp" />
+            <img src="/assets/images/bootcamp-1.jpg" width="1200" height="958" loading="lazy" data-parallax alt="Đinh Công Thái in front of the Viettel Security backdrop at Security Bootcamp 2026" />
+          </picture>
+        </figure>
+
+        <figure class="tile tile--photo tile--photo-b reveal">
+          <picture>
+            <source srcset="/assets/images/bootcamp-2.webp" type="image/webp" />
+            <img src="/assets/images/bootcamp-2.jpg" width="1200" height="801" loading="lazy" data-parallax alt="A Viettel Security talk on stage at Security Bootcamp 2026" />
+          </picture>
+        </figure>
+
+        <article class="tile tile--event reveal">
+          <p class="tile__label">Event</p>
+          <h3 class="event__title">Security Bootcamp 2026</h3>
+          <p class="event__meta">September 2026, with Viettel Cyber Security</p>
+          <p class="event__text">
+            Vietnam’s long-running community security conference. I joined this year’s edition with the Viettel Cyber
+            Security team, one of the event’s partners.
+          </p>
+          <a class="link-arrow" href="https://securitybootcamp.org.vn/" target="_blank" rel="noreferrer">securitybootcamp.org.vn <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Background: education, grouped honours, toolkit -->
+    <section class="section wrap" id="background">
+      <h2 class="section__title reveal">Background</h2>
+
+      <article class="edu reveal">
+        <div>
+          <h3 class="edu__school">Hanoi University of Science and Technology</h3>
+          <p class="edu__degree">B.Eng. Computer Science, specialisation in Artificial Intelligence</p>
+          <p class="edu__grade">Graduated with a <strong>Very Good</strong> degree classification.</p>
+        </div>
+        <p class="edu__years">2022 - 2026</p>
+      </article>
+
+      <h3 class="sub reveal">Honours</h3>
+      <div class="honours">
+        <ul class="honours__group">
+          <li class="honours__head reveal">Olympiads and competitions</li>
+          <li class="reveal">
+            <p class="honour__name">Second Prize, Vietnam National Physics Olympiad</p>
+            <p class="honour__note">Ministry of Education and Training</p>
+            <span class="honour__yr">Apr 2022</span>
+            <div class="thumbs">
+              <button type="button" class="thumb" data-gallery="vpho" data-src="/assets/certs/vpho-1.jpg" data-caption="Vietnam National Physics Olympiad: Khuyến học certificate"><img src="/assets/certs/thumbs/vpho-1.jpg" alt="Vietnam National Physics Olympiad: Khuyến học certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="vpho" data-src="/assets/certs/vpho-2.jpg" data-caption="Vietnam National Physics Olympiad: Minister’s certificate"><img src="/assets/certs/thumbs/vpho-2.jpg" alt="Vietnam National Physics Olympiad: Minister’s certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="vpho" data-src="/assets/certs/vpho-3.jpg" data-caption="Vietnam National Physics Olympiad: Provincial Chairman’s certificate"><img src="/assets/certs/thumbs/vpho-3.jpg" alt="Vietnam National Physics Olympiad: Provincial Chairman’s certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="vpho" data-src="/assets/certs/vpho-4.jpg" data-caption="Vietnam National Physics Olympiad: Second Prize certificate"><img src="/assets/certs/thumbs/vpho-4.jpg" alt="Vietnam National Physics Olympiad: Second Prize certificate" loading="lazy" width="160" height="120" /></button>
+            </div>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">First Prize, Southern Winter School Physics Olympiad</p>
+            <p class="honour__note">TITAN Education</p>
+            <span class="honour__yr">Jan 2022</span>
+            <div class="thumbs">
+              <button type="button" class="thumb" data-gallery="truongdong" data-src="/assets/certs/truongdong.jpg" data-caption="Winter School Physics Olympiad: First Prize certificate"><img src="/assets/certs/thumbs/truongdong.jpg" alt="Winter School Physics Olympiad: First Prize certificate" loading="lazy" width="160" height="120" /></button>
+            </div>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">First Prize, Ninh Bình Provincial Physics Competition</p>
+            <p class="honour__note">Ninh Bình Department of Education and Training</p>
+            <span class="honour__yr">Sep 2021</span>
+            <div class="thumbs">
+              <button type="button" class="thumb" data-gallery="hsgtinh" data-src="/assets/certs/hsgtinh-1.jpg" data-caption="Ninh Bình Provincial Physics Competition: Director of the Department’s certificate"><img src="/assets/certs/thumbs/hsgtinh-1.jpg" alt="Ninh Bình Provincial Physics Competition: Director of the Department’s certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="hsgtinh" data-src="/assets/certs/hsgtinh-2.jpg" data-caption="Ninh Bình Provincial Physics Competition: First Prize certificate"><img src="/assets/certs/thumbs/hsgtinh-2.jpg" alt="Ninh Bình Provincial Physics Competition: First Prize certificate" loading="lazy" width="160" height="120" /></button>
+            </div>
+          </li>
+        </ul>
+        <ul class="honours__group">
+          <li class="honours__head reveal">Recognition</li>
+          <li class="reveal">
+            <p class="honour__name">“Tuổi trẻ sáng tạo Quyết thắng” Award, Special Excellence</p>
+            <p class="honour__note">Political Commissioner, 1st Army Corps</p>
+            <span class="honour__yr">Dec 2022</span>
+            <div class="thumbs">
+              <button type="button" class="thumb" data-gallery="quyetthang" data-src="/assets/certs/quyetthang-1.jpg" data-caption="Tuổi trẻ sáng tạo Quyết thắng: Political Commissioner’s certificate"><img src="/assets/certs/thumbs/quyetthang-1.jpg" alt="Tuổi trẻ sáng tạo Quyết thắng: Political Commissioner’s certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="quyetthang" data-src="/assets/certs/quyetthang-2.jpg" data-caption="Tuổi trẻ sáng tạo Quyết thắng: Corps Staff certificate"><img src="/assets/certs/thumbs/quyetthang-2.jpg" alt="Tuổi trẻ sáng tạo Quyết thắng: Corps Staff certificate" loading="lazy" width="160" height="120" /></button>
+              <button type="button" class="thumb" data-gallery="quyetthang" data-src="/assets/certs/quyetthang-3.jpg" data-caption="Tuổi trẻ sáng tạo Quyết thắng: Corps Command certificate, 2021"><img src="/assets/certs/thumbs/quyetthang-3.jpg" alt="Tuổi trẻ sáng tạo Quyết thắng: Corps Command certificate, 2021" loading="lazy" width="160" height="120" /></button>
+            </div>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">Certificate of Merit for Outstanding Academic Achievement</p>
+            <p class="honour__note">Committee for Population, Family and Children, Ministry of National Defence</p>
+            <span class="honour__yr">2017-2022</span>
+            <div class="thumbs">
+              <button type="button" class="thumb" data-gallery="bqp" data-src="/assets/certs/bqp.jpg" data-caption="Ministry of National Defence Certificate of Merit, 2017-2022"><img src="/assets/certs/thumbs/bqp.jpg" alt="Ministry of National Defence Certificate of Merit, 2017-2022" loading="lazy" width="160" height="120" /></button>
+            </div>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">Certificate of Merit</p>
+            <p class="honour__note">Director of the Department of Education &amp; Training</p>
+            <span class="honour__yr">2022</span>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">Commander, 1st Army Corps Certificate</p>
+            <p class="honour__note">Outstanding academic and personal achievement</p>
+          </li>
+          <li class="reveal">
+            <p class="honour__name">Đinh Bộ Lĩnh &amp; Ngô Thì Nhậm Awards</p>
+            <p class="honour__note">Outstanding academic and personal achievement</p>
+          </li>
+        </ul>
+      </div>
+
+      <h3 class="sub reveal">Certifications</h3>
+      <ul class="certs">
+        <li class="cert reveal">
+          <button type="button" class="cert__img" data-gallery="certs" data-src="/assets/certs/gemini-educator.jpg" data-caption="Gemini Certified Educator, Google">
+            <img src="/assets/certs/thumbs/gemini-educator.jpg" alt="Gemini Certified Educator certificate" loading="lazy" width="480" height="371" />
+          </button>
+          <p class="cert__name">Gemini Certified Educator</p>
+          <p class="cert__meta">Google · Dec 2025 - Dec 2028</p>
+        </li>
+        <li class="cert reveal">
+          <button type="button" class="cert__img" data-gallery="certs" data-src="/assets/certs/gemini-student.jpg" data-caption="Gemini Certified Student, Google">
+            <img src="/assets/certs/thumbs/gemini-student.jpg" alt="Gemini Certified Student certificate" loading="lazy" width="480" height="371" />
+          </button>
+          <p class="cert__name">Gemini Certified Student</p>
+          <p class="cert__meta">Google · Dec 2025 - Dec 2028</p>
+        </li>
+        <li class="cert reveal">
+          <button type="button" class="cert__img" data-gallery="certs" data-src="/assets/certs/fpt-ai-compass.jpg" data-caption="FPT AI COMPASS, FPT School of Business &amp; Technology">
+            <img src="/assets/certs/thumbs/fpt-ai-compass.jpg" alt="FPT AI COMPASS certificate" loading="lazy" width="480" height="371" />
+          </button>
+          <p class="cert__name">FPT AI COMPASS</p>
+          <p class="cert__meta">microMBA AI FPT, Level 5: AI Leader</p>
+          <p class="cert__meta">FPT School of Business &amp; Technology · Jun 2025</p>
+        </li>
+      </ul>
+
+      <h3 class="sub reveal">Toolkit</h3>
+      <div class="toolkit">
+        <div class="tool reveal">
+          <h4>Languages</h4>
+          <p>Python, TypeScript, JavaScript, Java, SQL, Bash, HTML/CSS</p>
+        </div>
+        <div class="tool reveal">
+          <h4>Machine learning</h4>
+          <p>PyTorch, TensorFlow, Hugging Face Transformers, scikit-learn, XGBoost, LightGBM, fastai, Pandas, NumPy, Plotly</p>
+        </div>
+        <div class="tool reveal">
+          <h4>NLP &amp; LLMs</h4>
+          <p>RAG, GPT / Qwen, PhoBERT, FAISS, Milvus, embedding search, text classification, question answering</p>
+        </div>
+        <div class="tool reveal">
+          <h4>Computer vision</h4>
+          <p>YOLOv12, OpenCV, SAHI, CLIP, detection, segmentation, video analysis</p>
+        </div>
+        <div class="tool reveal">
+          <h4>Backend &amp; data</h4>
+          <p>FastAPI, Node.js, Express, React, Flutter, Neo4j, MongoDB, PostgreSQL, Redis</p>
+        </div>
+        <div class="tool reveal">
+          <h4>Tooling</h4>
+          <p>Docker, Git, CI/CD, Linux, Firebase, Weights &amp; Biases, Postman, Kaggle</p>
+        </div>
+        <div class="tool reveal">
+          <h4>Spoken</h4>
+          <p>Vietnamese, English, Chinese</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact: one large statement -->
+    <section class="contact wrap" id="contact">
+      <canvas class="contact__net" id="hero-net" aria-hidden="true"></canvas>
+      <h2 class="contact__title" data-split-words>Have a hard problem worth solving?</h2>
+      <p class="contact__lede reveal">Open to research collaborations, Master’s opportunities and AI engineering roles.</p>
+      <div class="contact__email reveal">
+        <a href="mailto:bong1552004@gmail.com">bong1552004@gmail.com</a>
+        <button type="button" class="copy-btn" id="copy-email" data-email="bong1552004@gmail.com" data-magnetic>Copy email</button>
+      </div>
+      <ul class="contact__links reveal">
+        <li><a href="https://github.com/ciTy1504" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a></li>
+        <li><a href="https://www.linkedin.com/in/thai-dinh-cong/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a></li>
+        <li><a href="https://www.facebook.com/anhlaconmeokeumiu/" target="_blank" rel="noreferrer">Facebook <span aria-hidden="true">↗</span></a></li>
+        <li><a href="tel:+84817858288">+84 817 858 288</a></li>
+        <li><a href="/assets/resume.pdf" download>Résumé <span aria-hidden="true">↓</span></a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__row">
+      <p>© <span id="year">2026</span> Đinh Công Thái</p>
+      <p>Hoàng Liệt, Hà Nội</p>
+      <a href="#top">Back to top</a>
+    </div>
+    <p class="footer__word" aria-hidden="true"><span>Đinh Công Thái</span></p>
+  </footer>
+
+  <!-- Slide-over panel for project details -->
+  <dialog class="panel" id="panel" aria-labelledby="panel-title">
+    <div class="panel__inner" data-lenis-prevent>
+      <button type="button" class="panel__close" id="panel-close" aria-label="Close details">Close</button>
+      <p class="panel__client" id="panel-client"></p>
+      <h3 class="panel__title" id="panel-title"></h3>
+      <div class="panel__body" id="panel-body"></div>
+    </div>
+  </dialog>
+
+  <!-- Lightbox for certificates -->
+  <dialog class="lightbox" id="lightbox" aria-label="Certificate viewer">
+    <figure class="lightbox__fig">
+      <img id="lightbox-img" alt="" />
+      <figcaption>
+        <span id="lightbox-cap"></span>
+        <span class="lightbox__count" id="lightbox-count"></span>
+      </figcaption>
+    </figure>
+    <button type="button" class="lightbox__btn lightbox__close" id="lightbox-close">Close</button>
+    <button type="button" class="lightbox__btn lightbox__prev" id="lightbox-prev" aria-label="Previous image">←</button>
+    <button type="button" class="lightbox__btn lightbox__next" id="lightbox-next" aria-label="Next image">→</button>
+  </dialog>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="/sculpture.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/main.js" defer></script>
+</body>
+</html>
