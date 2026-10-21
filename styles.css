@@ -533,6 +533,9 @@ html.lenis, html.lenis body { height: auto; }
 .event__meta { margin-top: 6px; font-size: .9rem; color: var(--muted); }
 .event__text { margin-top: 16px; color: var(--ink-2); }
 .tile--event .link-arrow { margin-top: auto; padding-top: 24px; }
+.tile--event .project__links { margin-top: auto; padding-top: 24px; }
+.tile--event .project__links .link-arrow { margin-top: 0; padding-top: 0; }
+.link-btn { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-weight: 500; }
 @media (max-width: 860px) {
   .tile--paper, .tile--photo-a, .tile--photo-b, .tile--event, .tile--talk, .tile--photo-c, .tile--photo-d, .tile--cyseex { grid-column: 1 / -1; }
   .tile--photo { min-height: 260px; }
@@ -568,7 +571,7 @@ html.lenis, html.lenis body { height: auto; }
 .thumb:active { transform: scale(.97); }
 
 /* Certifications: one card per certificate */
-.certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 24px 20px; }
+.certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 24px 20px; }
 .cert__img {
   display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0; cursor: zoom-in;
   border-radius: var(--r-tile); overflow: hidden; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
