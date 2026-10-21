@@ -509,6 +509,10 @@ html.lenis, html.lenis body { height: auto; }
 .tile--talk .link-arrow { margin-top: auto; padding-top: 24px; }
 /* Keep the hand-cropped 4:3 frame intact: exact ratio, no parallax zoom */
 .tile--photo-c { grid-column: 6 / span 7; display: block; aspect-ratio: 4 / 3; min-height: 0; }
+.tile--photo-d { grid-column: 1 / span 5; }
+.tile--photo-d img { object-position: 50% 55%; }
+.tile--cyseex { grid-column: 6 / span 7; background: var(--accent-soft); padding: clamp(24px, 3.4vw, 44px); display: flex; flex-direction: column; align-items: flex-start; }
+.tile--cyseex .link-arrow { margin-top: auto; padding-top: 24px; }
 .tile--event { grid-column: 8 / span 5; background: var(--surface); padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; align-items: flex-start; }
 .tile--photo { min-height: clamp(280px, 32vw, 440px); background: var(--surface); position: relative; }
 .tile--photo picture { position: absolute; inset: 0; }
@@ -530,7 +534,7 @@ html.lenis, html.lenis body { height: auto; }
 .event__text { margin-top: 16px; color: var(--ink-2); }
 .tile--event .link-arrow { margin-top: auto; padding-top: 24px; }
 @media (max-width: 860px) {
-  .tile--paper, .tile--photo-a, .tile--photo-b, .tile--event, .tile--talk, .tile--photo-c { grid-column: 1 / -1; }
+  .tile--paper, .tile--photo-a, .tile--photo-b, .tile--event, .tile--talk, .tile--photo-c, .tile--photo-d, .tile--cyseex { grid-column: 1 / -1; }
   .tile--photo { min-height: 260px; }
 }
 
