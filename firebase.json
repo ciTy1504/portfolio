@@ -9,7 +9,8 @@
       ".git/**",
       ".firebase/**",
       ".claude/**",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "CV__En_/**"
     ],
     "cleanUrls": true,
     "headers": [
