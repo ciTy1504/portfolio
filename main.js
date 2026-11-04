@@ -516,11 +516,19 @@
 
   /* Agent tour: the page builds itself and scrolls to the end (see agents.js) */
   if (window.Agents) {
+    // The agents type the hero copy themselves; only the 3D stage keeps its own entrance
+    const stageStep = heroSteps[heroSteps.length - 1];
     Agents.tour({
       roots: ['.topbar__inner', 'main', '.footer'],
-      custom: new Map(heroSteps.map((st) => [st.el, st.reveal])),
-      prepare: hideHero,
-      finale: document.querySelector('.contact__email'),
+      custom: new Map([[stageStep.el, stageStep.reveal]]),
+      prepare: () => {
+        gsap.set([eyebrow, lede, cta], { autoAlpha: 1, y: 0 });
+        gsap.set(title, { visibility: 'visible' });
+        gsap.set(titleWords, { yPercent: 0 });
+        gsap.set(stage, { autoAlpha: 0 });
+        gsap.set('.reveal', { opacity: 1, y: 0 });
+      },
+      replayHost: '.footer',
       scroll: (y) => (lenis ? lenis.scrollTo(y, { immediate: true, force: true }) : window.scrollTo(0, y)),
     });
   }

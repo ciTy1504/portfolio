@@ -657,9 +657,9 @@ html.lenis, html.lenis body { height: auto; }
 
 /* ---------- Agent tour (motion path only; injected by agents.js) ---------- */
 .tour-hidden { visibility: hidden !important; }
-.tour { position: fixed; inset: 0; z-index: 48; pointer-events: none; overflow: hidden; --bp: #3b82f6; }
+.tour { position: fixed; inset: 0; z-index: 48; pointer-events: none; overflow: hidden; --bp: #3b82f6; --red: #f0483e; }
 .tour__ruler { position: absolute; opacity: 0; transition: opacity .4s ease; }
-.tour.is-on .tour__ruler { opacity: 1; }
+.tour.is-building .tour__ruler { opacity: 1; }
 .tour__ruler--x {
   left: 0; right: 0; top: 64px; height: 14px;
   background:
@@ -676,20 +676,37 @@ html.lenis, html.lenis body { height: auto; }
     color-mix(in srgb, var(--bg) 80%, transparent);
   border-right: 1px solid color-mix(in srgb, var(--bp) 45%, transparent);
 }
-.tour__agent { position: absolute; left: 0; top: 0; will-change: transform; }
-.tour__agent svg { display: block; width: 13px; height: 18px; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .4)); }
-.tour__agent path { fill: var(--c); stroke: var(--e, #fff); stroke-width: 1.1; stroke-linejoin: round; }
-.tour:not(.is-on) .tour__crew { opacity: 0; transition: opacity .6s ease .4s; }
+.tour__crew { position: absolute; inset: 0; z-index: 2; }
+.tour:not(.is-on) .tour__crew { opacity: 0; }
+
+/* Cursors: arrow, crosshair, I-beam and the duplicate arrow; the hot spot sits on the point itself */
+.tour__agent { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform; }
+.tour__agent .cur { position: absolute; display: none; overflow: visible; filter: drop-shadow(0 1px 2px rgb(0 0 0 / .35)); }
+.tour__agent[data-shape="arrow"] .cur--arrow,
+.tour__agent[data-shape="cross"] .cur--cross,
+.tour__agent[data-shape="ibeam"] .cur--ibeam,
+.tour__agent[data-shape="dup"] .cur--dup { display: block; }
+.cur--arrow { width: 14px; height: 20px; left: -1px; top: -1px; }
+.cur--dup { width: 22px; height: 22px; left: -1px; top: -1px; }
+.cur--cross { width: 21px; height: 21px; left: -10.5px; top: -10.5px; }
+.cur--ibeam { width: 11px; height: 21px; left: -5.5px; top: -10.5px; }
+.cur--arrow path, .cur--dup path:first-child { fill: var(--c); stroke: var(--e, #fff); stroke-width: 1.1; stroke-linejoin: round; }
+.cur path.o { fill: none; stroke: var(--e, #fff); stroke-width: 3.4; stroke-linecap: round; }
+.cur--cross path:not(.o), .cur--ibeam path:not(.o), .cur--dup path.p { fill: none; stroke: var(--c); stroke-width: 1.5; stroke-linecap: round; }
 
 /* Guides: full-bleed lines along the edges of the box being built */
-.tg { position: absolute; background: color-mix(in srgb, var(--bp) 55%, transparent); }
+.tg { position: absolute; background: color-mix(in srgb, var(--bp) 50%, transparent); }
 .tg--h { left: 0; right: 0; top: 0; height: 1px; }
 .tg--v { top: 0; bottom: 0; left: 0; width: 1px; }
+.tg--red { background: var(--red); }
 
-/* Blueprint box: dragged out by an agent, then locked */
-.tb { position: absolute; border: 1px solid var(--bp); background: color-mix(in srgb, var(--bp) 7%, transparent); }
-.tb.is-locked { border-width: 1.5px; }
-.tb i { position: absolute; width: 7px; height: 7px; background: #fff; border: 1px solid var(--bp); }
+/* Selection box with handles and a W × H badge */
+.tb { position: absolute; border: 1px solid var(--bp); }
+.tb--ghost { background: color-mix(in srgb, var(--bp) 8%, transparent); }
+.tb--ph { background: color-mix(in srgb, #8a8f98 45%, transparent); }
+.tb--red { border-color: var(--red); }
+.tb i { position: absolute; display: none; width: 7px; height: 7px; background: #fff; border: 1px solid var(--bp); }
+.tb--h i { display: block; }
 .tb i:nth-child(1) { left: -4px; top: -4px; }
 .tb i:nth-child(2) { right: -4px; top: -4px; }
 .tb i:nth-child(3) { left: -4px; bottom: -4px; }
@@ -699,49 +716,40 @@ html.lenis, html.lenis body { height: auto; }
   font: 500 10px/1 var(--mono); font-style: normal; padding: 3px 6px 4px; border-radius: 3px;
   background: var(--bp); color: #fff;
 }
-.tb u { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); font: 600 14px/1 var(--mono); text-decoration: none; color: var(--bp); opacity: 0; }
-.tb.is-locked u { opacity: 1; animation: caret .5s steps(1) infinite; }
-@keyframes caret { 50% { opacity: 0; } }
-.tb s { position: absolute; inset: 0; background: color-mix(in srgb, #64748b 55%, transparent); opacity: 0; transition: opacity .2s ease; }
-.tb s::after { content: ""; position: absolute; left: 50%; top: 50%; width: 22px; height: 16px; transform: translate(-50%, -50%); border: 1.5px solid rgb(255 255 255 / .7); border-radius: 2px; }
-.tb.is-locked s { opacity: 1; }
+/* Spacing measurement while a duplicate is dragged */
+.tm { position: absolute; background: var(--red); }
+.tm::before, .tm::after { content: ""; position: absolute; background: var(--red); }
+.tm::before, .tm::after { top: -4px; width: 1px; height: 9px; }
+.tm::before { left: 0; }
+.tm::after { right: 0; }
+.tm--v::before, .tm--v::after { left: -4px; width: 9px; height: 1px; top: auto; }
+.tm--v::before { top: 0; }
+.tm--v::after { bottom: 0; }
+.tm em {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); white-space: nowrap;
+  font: 500 10px/1 var(--mono); font-style: normal; padding: 3px 5px; border-radius: 3px; background: var(--red); color: #fff;
+}
 
-/* How content arrives once its box is locked */
-.tour-type { animation: tour-type .5s steps(14, end) both; }
-@keyframes tour-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+/* Typing */
+.tour-caret {
+  display: inline-block; width: 0; height: 1.05em; margin-right: -2px; vertical-align: -.14em;
+  border-left: 2px solid #3b82f6; font-style: normal;
+}
+.tour-sel { background: color-mix(in srgb, #3b82f6 28%, transparent) !important; }
+
+/* How content arrives once its box is drawn */
 .tour-fill { animation: tour-fill .55s ease both; }
-.tour-frame { animation: tour-frame .45s ease both; }
-@keyframes tour-frame { from { opacity: 0; clip-path: inset(0 100% 100% 0 round 12px); } to { opacity: 1; clip-path: inset(0 0 0 0 round 0); } }
-.tb--frame { border-style: dashed; }
-.tb--frame.is-locked { border-style: solid; }
 @keyframes tour-fill { from { clip-path: inset(0 0 100% 0); filter: brightness(1.6) saturate(.4); } to { clip-path: inset(0 0 0 0); filter: none; } }
+.tour-frame { animation: tour-frame .35s ease both; }
+@keyframes tour-frame { from { opacity: 0; } to { opacity: 1; } }
 
-/* Status bar */
-.tour-bar {
-  position: fixed; left: 50%; bottom: 18px; z-index: 55; transform: translate(-50%, 30px);
-  display: flex; align-items: center; gap: 12px; white-space: nowrap;
-  padding: 6px 6px 6px 10px; border-radius: 12px;
-  background: color-mix(in srgb, #111318 92%, transparent); color: #e8eaf0;
-  border: 1px solid rgb(255 255 255 / .08);
-  font: 500 11.5px/1 var(--mono); box-shadow: 0 12px 34px rgb(0 0 0 / .35); backdrop-filter: blur(10px);
-  opacity: 0; transition: opacity .4s ease, transform .5s var(--ease);
+/* Replay, at the very end of the page; the swarm circles it */
+.replay-wrap { display: flex; justify-content: center; padding-block: 56px 8px; }
+.replay {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; cursor: pointer;
+  font: 500 13px/1 var(--mono); color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  transition: background-color .2s ease, border-color .2s ease;
 }
-.tour-bar.is-on { opacity: 1; transform: translate(-50%, 0); }
-.tour-bar__avatars { display: flex; }
-.tour-bar__avatars i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); border: 2px solid #111318; box-shadow: 0 0 0 1px rgb(255 255 255 / .28); margin-left: -5px; }
-.tour-bar__avatars i:first-child { margin-left: 0; }
-.tour-bar__progress { width: 90px; height: 3px; border-radius: 3px; background: rgb(255 255 255 / .12); overflow: hidden; }
-.tour-bar__progress b { display: block; height: 100%; background: #3b82f6; transform-origin: left; transform: scaleX(0); transition: transform .3s ease; }
-.tour-bar__state { padding: 5px 9px; border-radius: 7px; background: #2563eb; color: #fff; }
-.tour-bar__btn {
-  border: 0; border-radius: 7px; padding: 5px 10px; cursor: pointer; font: inherit;
-  background: rgb(255 255 255 / .1); color: #e8eaf0; transition: background-color .2s ease;
-}
-.tour-bar__btn:hover { background: rgb(255 255 255 / .2); }
-.tour-bar.is-done .tour-bar__btn { background: #2563eb; color: #fff; }
-@media (max-width: 760px) {
-  .tour-bar { bottom: 12px; gap: 8px; font-size: 10.5px; }
-  .tour-bar__progress { width: 44px; }
-  .tour-bar__avatars { display: none; }
-  .tour__ruler { display: none; }
-}
+.replay:hover { border-color: var(--muted); }
+.replay span { font-size: 15px; }
+@media (max-width: 760px) { .tour__ruler { display: none; } }
