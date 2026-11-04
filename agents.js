@@ -6,7 +6,11 @@
 (() => {
   if (!window.gsap) return;
 
-  const PALETTE = ['#8ab4ff', '#ff9ab0', '#7ee0c3', '#ffd27a', '#c9a7ff', '#7fd3ff', '#ffb38a', '#b8e986'];
+  // Neutral crew: ink, chalk, sand, stone. Light cursors get a dark outline and vice versa.
+  const PALETTE = [
+    ['#141414', '#f3eee5'], ['#f6f2ea', '#1b1b1b'], ['#d6c6a8', '#1b1b1b'], ['#8d8880', '#f3eee5'],
+    ['#3a3734', '#f3eee5'], ['#e7dfcf', '#262626'], ['#b4ac9e', '#1b1b1b'], ['#605b55', '#f3eee5'],
+  ];
   const narrow = () => window.matchMedia('(max-width: 760px)').matches;
   const ARROW = '<svg viewBox="0 0 14 20"><path d="M1 1v15.5l4-3.6 2.7 6 2.6-1.1-2.6-5.9H13z"/></svg>';
 
@@ -22,7 +26,7 @@
   const bar = document.createElement('div');
   bar.className = 'tour-bar';
   bar.innerHTML = `
-    <span class="tour-bar__avatars">${PALETTE.slice(0, 5).map((c) => `<i style="--c:${c}"></i>`).join('')}</span>
+    <span class="tour-bar__avatars">${PALETTE.slice(0, 5).map(([c]) => `<i style="--c:${c}"></i>`).join('')}</span>
     <span class="tour-bar__text"></span>
     <span class="tour-bar__progress"><b></b></span>
     <span class="tour-bar__state"></span>
@@ -34,31 +38,45 @@
   const barBtn = bar.querySelector('.tour-bar__btn');
 
   /* ---------- Which elements are components ---------- */
-  const LEAF_TAG = /^(P|H1|H2|H3|H4|H5|H6|LI|A|BUTTON|DT|DD|IMG|PICTURE|CANVAS|FIGURE|SPAN|EM|STRONG|SMALL|LABEL|VIDEO)$/;
-  const isMedia = (el) => el.matches('img, picture, canvas, video, figure, .hero__stage, .tile--photo')
-    || (!el.matches('.pcard, .role, .cert, .tile') && !!el.querySelector(':scope > picture, :scope > img, :scope > canvas'));
+  // Text blocks are built in one go; painted containers (cards, chips rows, tiles) are built as an
+  // empty frame first and then filled piece by piece, so a project card is ~7 separate jobs.
+  const TEXT_TAG = /^(P|H1|H2|H3|H4|H5|H6|BUTTON|LABEL|DT|DD|SPAN|EM|STRONG|SMALL|B|I|CODE|TIME|svg|INPUT|TEXTAREA|SELECT)$/;
+  const MEDIA_SEL = 'img, picture, canvas, video, iframe, .hero__stage';
+  const isMedia = (el) => el.matches(MEDIA_SEL)
+    || (el.children.length === 1 && el.children[0].matches('img, picture, canvas, video') && !(el.textContent || '').trim());
   const painted = (cs) =>
     (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent')
     || cs.backgroundImage !== 'none' || cs.boxShadow !== 'none'
-    || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0 || parseFloat(cs.borderLeftWidth) > 0;
+    || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0
+    || parseFloat(cs.borderLeftWidth) > 0 || parseFloat(cs.borderRightWidth) > 0;
+  const ownText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
+  const allInline = (el) => [...el.children].every((k) => {
+    const d = getComputedStyle(k).display;
+    return d === 'inline' || d === 'none' || k.tagName === 'BR';
+  });
 
-  // Walk down from each root; stop at anything that reads as one component
-  const collect = (roots) => {
+  // Walk down from each root. Returns [{ el, frame, parent }] in document order (parents first).
+  const collect = (roots, custom = new Map()) => {
     const out = [];
-    const walk = (el) => {
+    const walk = (el, parent) => {
       for (const c of el.children) {
         if (c.matches('script, template, dialog, style, noscript, .tour, .tour-bar, .sr-only, .skip')) continue;
         const cs = getComputedStyle(c);
-        if (cs.display === 'none') continue;
+        if (cs.display === 'none' || cs.display === 'contents' && !c.children.length) continue;
         if (c.getAttribute('aria-hidden') === 'true' && (cs.position === 'absolute' || cs.position === 'fixed')) continue; // background art
         const r = c.getBoundingClientRect();
         if (r.width < 2 || r.height < 2) continue;
-        const leaf = LEAF_TAG.test(c.tagName) || isMedia(c) || painted(cs) || c.children.length === 0
-          || (r.height <= 110 && r.width < innerWidth * 0.9);
-        if (leaf) out.push(c); else walk(c);
+        const leaf = custom.has(c) || isMedia(c) || TEXT_TAG.test(c.tagName) || ownText(c)
+          || c.children.length === 0 || allInline(c);
+        if (leaf) { out.push({ el: c, frame: false, parent }); continue; }
+        if (painted(cs)) {
+          const me = { el: c, frame: true, parent };
+          out.push(me);
+          walk(c, me);
+        } else walk(c, parent);
       }
     };
-    roots.forEach((r) => r && walk(r));
+    roots.forEach((r) => r && walk(r, null));
     return out;
   };
 
@@ -66,11 +84,13 @@
   let crew = [];
   const makeCrew = () => {
     crewEl.replaceChildren();
-    const n = narrow() ? 10 : 20;
+    const n = narrow() ? 12 : 24;
     crew = Array.from({ length: n }, (_, i) => {
       const el = document.createElement('div');
       el.className = 'tour__agent';
-      el.style.setProperty('--c', PALETTE[i % PALETTE.length]);
+      const [fill, edge] = PALETTE[i % PALETTE.length];
+      el.style.setProperty('--c', fill);
+      el.style.setProperty('--e', edge);
       el.innerHTML = ARROW;
       crewEl.appendChild(el);
       // Agents travel in small clusters around the flock centre
@@ -96,8 +116,9 @@
     barFill.style.transform = `scaleX(${total ? S.built / total : 1})`;
     const working = S.phase === 'scanning' || S.phase === 'touring';
     if (S.phase === 'scanning') barText.textContent = 'Scanning page…';
-    else if (working) barText.textContent = `${crew.length} agents · ${S.built} / ${total} layers`;
-    else barText.textContent = S.summary;
+    else barText.textContent = `${crew.length} agents · ${S.built} / ${total} layers`;
+    barText.hidden = !working;
+    barFill.parentElement.hidden = !working;
     barState.textContent = S.phase === 'scanning' ? 'Scanning' : 'Touring';
     barState.hidden = !working;
     barBtn.textContent = working ? 'Skip' : 'Replay';
@@ -108,10 +129,10 @@
   const startJob = (L) => {
     L.active = true;
     S.active++;
-    const media = isMedia(L.el);
+    const media = !L.frame && isMedia(L.el);
     const box = document.createElement('div');
-    box.className = `tb${media ? ' tb--media' : ''}`;
-    box.innerHTML = '<i></i><i></i><i></i><i></i><em></em>' + (media ? '<s></s>' : '<u>I</u>');
+    box.className = `tb${media ? ' tb--media' : ''}${L.frame ? ' tb--frame' : ''}`;
+    box.innerHTML = '<i></i><i></i><i></i><i></i><em></em>' + (media ? '<s></s>' : L.frame ? '' : '<u>I</u>');
     box.style.opacity = '0';
     const lines = ['h', 'h', 'v', 'v'].map((d) => {
       const l = document.createElement('div');
@@ -125,7 +146,11 @@
     const r0 = L.el.getBoundingClientRect();
     const free = crew.filter((a) => !a.task).sort((a, b) => Math.hypot(a.x - r0.left, a.y - r0.top) - Math.hypot(b.x - r0.left, b.y - r0.top));
     const lead = free[0];
-    const helper = r0.width * r0.height > 60000 ? free[1] : null;
+    const area = r0.width * r0.height;
+    const helper = area > 60000 ? free[1] : null;
+    // small pieces (a chip, a label, a line of text) go up faster than cards and photos
+    const k = area < 6000 ? 0.55 : area < 25000 ? 0.72 : 0.9;
+    const T = (t) => t * k;
     const job = { L, box, lines, chip: box.querySelector('em'), lead, helper, mode: 'approach', media };
     S.jobs.add(job);
     const run = S.run;
@@ -135,7 +160,7 @@
     lead.task = { el: L.el, fx: 0, fy: 0, ox: 0, oy: 0, fast: true };
     if (helper) helper.task = { el: L.el, fx: gsap.utils.random(0.3, 0.8), fy: gsap.utils.random(0.3, 0.8), ox: 0, oy: 0 };
     // 2. Press and drag out, overshooting the far corner
-    gsap.delayedCall(0.3, () => {
+    gsap.delayedCall(T(0.3), () => {
       if (!live()) return;
       job.mode = 'drag';
       box.style.opacity = '1';
@@ -143,22 +168,22 @@
       lead.task = { el: L.el, fx: 1, fy: 1, ox: over(), oy: over(), fast: true };
     });
     // 3. Nudge back to fit
-    gsap.delayedCall(0.64, () => {
+    gsap.delayedCall(T(0.64), () => {
       if (!live()) return;
       lead.task = { el: L.el, fx: 1, fy: 1, ox: 0, oy: 0, fast: true };
     });
     // 4. Lock: guides and handles snap to the real bounds
-    gsap.delayedCall(0.86, () => {
+    gsap.delayedCall(T(0.86), () => {
       if (!live()) return;
       job.mode = 'lock';
       box.classList.add('is-locked');
       gsap.to(lines, { opacity: 1, duration: 0.15 });
       // the agent moves to where the content goes in: the caret for text, the middle for media
-      lead.task = media ? { el: L.el, fx: 0.5, fy: 0.5, ox: 0, oy: 0, fast: true } : { el: L.el, fx: 0, fy: 0.5, ox: 4, oy: 0, fast: true };
+      lead.task = media || L.frame ? { el: L.el, fx: 0.5, fy: 0.5, ox: 0, oy: 0, fast: true } : { el: L.el, fx: 0, fy: 0.5, ox: 4, oy: 0, fast: true };
     });
     // 5. Fill: type the text, or drop the image into its placeholder
-    gsap.delayedCall(0.95, () => { if (live()) reveal(L); });
-    gsap.delayedCall(1.4, () => endJob(job));
+    gsap.delayedCall(T(0.95), () => { if (live()) reveal(L); });
+    gsap.delayedCall(T(1.4), () => endJob(job));
   };
 
   const endJob = (job) => {
@@ -176,7 +201,7 @@
     S.built++;
     L.el.classList.remove('tour-hidden');
     if (!instant) {
-      const cls = isMedia(L.el) ? 'tour-fill' : 'tour-type';
+      const cls = L.frame ? 'tour-frame' : isMedia(L.el) ? 'tour-fill' : 'tour-type';
       L.el.classList.add(cls);
       setTimeout(() => L.el.classList.remove(cls), 650);
     }
@@ -254,8 +279,8 @@
     if (S.phase !== 'touring') return;
 
     const vh = innerHeight, vw = innerWidth;
-    const maxC = narrow() ? 4 : 9;
-    let pending = 0;
+    const maxC = narrow() ? 7 : 16;
+    let pending = 0, blocking = false;
     for (const L of S.layers) {
       if (L.done || L.active) continue;
       const r = L.el.getBoundingClientRect();
@@ -266,6 +291,7 @@
         const sc = hScroller(L.el);
         if (sc) {
           pending++;
+          blocking = true;
           if (!S.active && time - (S.lastSlide || 0) > 0.4) {
             sc.scrollTo({ left: sc.scrollLeft + r.left - sc.getBoundingClientRect().left - 16, behavior: 'smooth' });
             S.lastSlide = time;
@@ -275,18 +301,21 @@
       }
       if (r.right <= 0) continue;
       pending++;
+      if (r.top < vh * 0.42) blocking = true;
+      if (L.parent && !L.parent.done) continue;     // a card's contents wait for its frame
       const freeAgents = crew.some((a) => !a.task);
-      if (S.active < maxC && freeAgents && time - S.lastStart > 0.07) { startJob(L); S.lastStart = time; }
+      if (S.active < maxC && freeAgents && time - S.lastStart > 0.045) { startJob(L); S.lastStart = time; }
     }
 
     S.pend = pending;
-    // Scroll on only when everything in view has been built; never carry a job off the top
-    let hold = pending > 0;
+    // Keep scrolling while the lower part of the screen is still being built, but stop before anything
+    // unbuilt reaches the upper part, and never carry a job off the top
+    let hold = blocking;
     S.jobs.forEach((j) => { if (j.L.el.getBoundingClientRect().top < vh * 0.1) hold = true; });
     const max = document.documentElement.scrollHeight - vh;
     const y = window.scrollY;
     if (y < max - 2) {
-      if (!hold) config.scroll(Math.min(max, y + (S.active ? 480 : 950) * dt));
+      if (!hold) config.scroll(Math.min(max, y + (S.active ? 420 : 950) * dt));
     } else if (!pending && S.active === 0) {
       // anything left (only components that never come into view) goes in instantly
       S.layers.forEach((L) => reveal(L, true));
@@ -297,12 +326,9 @@
   gsap.ticker.add(tick);
 
   /* ---------- Phases ---------- */
-  const summary = () => `Rebuilt by ${crew.length} agents in ${((performance.now() - S.t0) / 1000).toFixed(1)}s`;
-
   const finale = () => {
     if (!S || S.phase !== 'touring') return;
     S.phase = 'finale';
-    S.summary = summary();
     setBar();
     const run = S.run;
     gsap.delayedCall(3.4, () => {
@@ -331,7 +357,6 @@
     if (!busyPhase()) return;
     clearJobs();
     S.layers.forEach((L) => { L.active = false; reveal(L, true); });
-    S.summary = S.summary || summary();
     S.phase = 'leaving';
     setBar();
     const run = S.run;
@@ -359,9 +384,15 @@
     document.querySelectorAll('.work__viewport').forEach((v) => { v.scrollLeft = 0; });
     makeCrew();
     const custom = cfg.custom || new Map();
-    const layers = collect(cfg.roots.map((q) => document.querySelector(q))).map((el) => ({ el, reveal: custom.get(el) }));
+    const found = collect(cfg.roots.map((q) => document.querySelector(q)), custom);
+    const byItem = new Map();
+    const layers = found.map((it) => {
+      const L = { el: it.el, frame: it.frame, parent: it.parent ? byItem.get(it.parent) : null, reveal: custom.get(it.el) };
+      byItem.set(it, L);
+      return L;
+    });
     layers.forEach((L) => { L.done = false; L.active = false; L.el.classList.add('tour-hidden'); });
-    S = { run: ++runs, layers, jobs: new Set(), active: 0, built: 0, lastStart: 0, phase: 'scanning', t0: performance.now(), finaleEl: cfg.finale, summary: '' };
+    S = { run: ++runs, layers, jobs: new Set(), active: 0, built: 0, lastStart: 0, phase: 'scanning', t0: performance.now(), finaleEl: cfg.finale };
     flock.x = innerWidth / 2; flock.y = innerHeight / 2;
     ui.classList.add('is-on');
     bar.classList.add('is-on');
