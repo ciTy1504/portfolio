@@ -654,3 +654,53 @@ html.lenis, html.lenis body { height: auto; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Agent swarm (motion path only; elements are injected by agents.js) ---------- */
+/* body is the containing block, so the agent layer spans the whole page and clips agents that fly off the edge */
+body { position: relative; }
+.agents-layer { position: absolute; inset: 0; overflow: hidden; z-index: 60; pointer-events: none; }
+.agent { position: absolute; left: 0; top: 0; will-change: transform; }
+.agent svg { display: block; width: 15px; height: 21px; filter: drop-shadow(0 2px 5px rgb(0 0 0 / .35)); }
+.agent path { fill: var(--c); stroke: #0d0d10; stroke-width: 1.2; stroke-linejoin: round; }
+.agent span {
+  position: absolute; left: 13px; top: 17px; white-space: nowrap;
+  font: 500 10.5px/1 var(--mono); letter-spacing: .02em;
+  padding: 3px 6px 4px; border-radius: 4px; background: var(--c); color: #0d0d10;
+}
+.bp {
+  position: absolute; border: 1px dashed var(--c); border-radius: 3px;
+  background: color-mix(in srgb, var(--c) 6%, transparent);
+}
+.bp i { position: absolute; width: 6px; height: 6px; background: var(--bg); border: 1px solid var(--c); }
+.bp i:nth-child(1) { left: -4px; top: -4px; }
+.bp i:nth-child(2) { right: -4px; top: -4px; }
+.bp i:nth-child(3) { left: -4px; bottom: -4px; }
+.bp i:nth-child(4) { right: -4px; bottom: -4px; }
+.bp b {
+  position: absolute; left: -1px; top: -19px; white-space: nowrap;
+  font: 500 10px/1 var(--mono); padding: 3px 6px 4px; border-radius: 3px 3px 3px 0;
+  background: var(--c); color: #0d0d10;
+}
+
+.build-pill {
+  position: fixed; left: 50%; bottom: 18px; z-index: 55; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 8px 7px 14px; border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 90%, transparent); color: var(--bg);
+  font: 500 12px/1 var(--mono); white-space: nowrap; box-shadow: 0 10px 30px rgb(0 0 0 / .25);
+  backdrop-filter: blur(8px);
+}
+.build-pill__dot { width: 7px; height: 7px; border-radius: 50%; background: #52d6b0; animation: pulse 1s ease-in-out infinite; }
+.build-pill.is-done .build-pill__dot { animation: none; }
+@keyframes pulse { 50% { opacity: .25; } }
+.build-pill__btn {
+  border: 0; border-radius: 999px; padding: 6px 11px; cursor: pointer;
+  font: 500 11.5px/1 var(--mono); background: var(--accent); color: var(--on-accent);
+  transition: transform .2s var(--ease);
+}
+.build-pill__btn:active { transform: scale(.96); }
+.build-pill:not(.is-done) .build-pill__text { padding-right: 6px; }
+@media (max-width: 760px) {
+  .agent span { font-size: 9.5px; }
+  .build-pill { bottom: 12px; font-size: 11px; }
+}

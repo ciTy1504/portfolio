@@ -54,17 +54,17 @@
     <section class="hero wrap" id="top">
       <div class="topo topo--b topo--hero" aria-hidden="true"></div>
       <div class="hero__copy">
-        <p class="hero__eyebrow" data-intro>AI Engineer · Viettel Cyber Security</p>
-        <h1 class="hero__title" data-split-words>AI that reads, sees and <em>defends.</em></h1>
-        <p class="hero__lede" data-intro>
+        <p class="hero__eyebrow" data-intro data-agent-label="planner: role">AI Engineer · Viettel Cyber Security</p>
+        <h1 class="hero__title" data-split-words data-agent-label="&lt;h1&gt; headline">AI that reads, sees and <em>defends.</em></h1>
+        <p class="hero__lede" data-intro data-agent-label="&lt;p&gt; intro">
           I’m Đinh Công Thái, and I build NLP, computer vision and LLM systems that hold up in production.
         </p>
-        <div class="hero__cta" data-intro>
+        <div class="hero__cta" data-intro data-agent-label="&lt;nav&gt; actions">
           <a class="btn" href="#work">See selected work <span aria-hidden="true">↗</span></a>
           <a class="btn btn--ghost" href="#contact">Get in touch</a>
         </div>
       </div>
-      <div class="hero__stage" id="hero-stage">
+      <div class="hero__stage" id="hero-stage" data-agent-label="&lt;canvas&gt; webgl sculpture">
         <canvas id="sculpture" aria-hidden="true"></canvas>
       </div>
     </section>
@@ -655,6 +655,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="/agents.js" defer></script>
   <script src="/main.js" defer></script>
 </body>
 </html>

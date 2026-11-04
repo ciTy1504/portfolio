@@ -354,11 +354,42 @@
       const m = maskWord(node.cloneNode(true)); titleWords.push(m.firstChild); node.replaceWith(m);
     }
   });
-  gsap.set([title, stage], { visibility: 'visible' });
-  gsap.timeline({ defaults: { ease: 'expo.out' } })
-    .from(titleWords, { yPercent: 120, duration: 1.3, stagger: 0.08 }, 0.15)
-    .fromTo(stage, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 1.8 }, 0.1)
-    .fromTo('[data-intro]', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.09 }, 0.55);
+  // Agents assemble the hero: each piece gets a blueprint box, then reveals
+  const [eyebrow, lede, cta] = ['.hero__eyebrow', '.hero__lede', '.hero__cta'].map((q) => hero.querySelector(q));
+  const rise = (el) => gsap.fromTo(el, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'expo.out' });
+  const heroSteps = [
+    { el: eyebrow, reveal: () => rise(eyebrow) },
+    { el: title, reveal: () => {
+      gsap.set(title, { visibility: 'visible' });
+      gsap.fromTo(titleWords, { yPercent: 120 }, { yPercent: 0, duration: 1.2, stagger: 0.08, ease: 'expo.out' });
+    } },
+    { el: lede, reveal: () => rise(lede) },
+    { el: cta, reveal: () => rise(cta) },
+    { el: stage, reveal: () => gsap.fromTo(stage, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 1.6, ease: 'expo.out' }) },
+  ];
+  const hideHero = () => {
+    gsap.set([eyebrow, lede, cta, stage], { autoAlpha: 0 });
+    gsap.set(title, { visibility: 'hidden' });
+  };
+  const runHeroBuild = () => {
+    if (!window.Agents) {
+      heroSteps.forEach((st, i) => gsap.delayedCall(0.1 + i * 0.12, st.reveal));
+      return;
+    }
+    Agents.status('Assembling with agents…', false);
+    Agents.build(heroSteps).then(({ secs, count }) => {
+      Agents.status(`Assembled by ${count} agents in ${secs.toFixed(1)}s`, true);
+    });
+  };
+  hideHero();
+  runHeroBuild();
+  if (window.Agents) {
+    Agents.onReplay(() => {
+      if (lenis) lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0);
+      hideHero();
+      gsap.delayedCall(0.15, runHeroBuild);
+    });
+  }
 
   // Leaving the hero: copy lifts away and the sculpture turns (sculpture.js reads __heroProgress)
   ScrollTrigger.create({
@@ -455,6 +486,10 @@
     yPercent: 115, duration: 1.2, ease: 'expo.out', stagger: 0.07,
     scrollTrigger: { trigger: contactTitle, start: 'top 82%' },
   });
+  // Finale, as in the reference reel: the crew circles the closing question
+  if (window.Agents) {
+    ScrollTrigger.create({ trigger: contactTitle, start: 'top 60%', once: true, onEnter: () => Agents.ring(contactTitle) });
+  }
 
   /* Footer: the wordmark rises like a curtain as the page ends */
   gsap.from('.footer__word span', {
@@ -466,7 +501,11 @@
   ScrollTrigger.batch('.reveal', {
     start: 'top 88%',
     once: true,
-    onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+    onEnter: (batch) => {
+      // One agent drops in to "build" the first element of each group
+      if (window.Agents && !batch[0].closest('#work')) Agents.touch(batch[0]);
+      gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true, delay: window.Agents ? 0.3 : 0 });
+    },
   });
 
   /* Magnetic copy button (pointer devices only) */
