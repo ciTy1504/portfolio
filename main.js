@@ -371,25 +371,9 @@
     gsap.set([eyebrow, lede, cta, stage], { autoAlpha: 0 });
     gsap.set(title, { visibility: 'hidden' });
   };
-  const runHeroBuild = () => {
-    if (!window.Agents) {
-      heroSteps.forEach((st, i) => gsap.delayedCall(0.1 + i * 0.12, st.reveal));
-      return;
-    }
-    Agents.status('Assembling with agents…', false);
-    Agents.build(heroSteps).then(({ secs, count }) => {
-      Agents.status(`Assembled by ${count} agents in ${secs.toFixed(1)}s`, true);
-    });
-  };
   hideHero();
-  runHeroBuild();
-  if (window.Agents) {
-    Agents.onReplay(() => {
-      if (lenis) lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0);
-      hideHero();
-      gsap.delayedCall(0.15, runHeroBuild);
-    });
-  }
+  // Without the agent layer, just reveal the hero pieces in turn
+  if (!window.Agents) heroSteps.forEach((st, i) => gsap.delayedCall(0.1 + i * 0.12, st.reveal));
 
   // Leaving the hero: copy lifts away and the sculpture turns (sculpture.js reads __heroProgress)
   ScrollTrigger.create({
@@ -487,9 +471,7 @@
     scrollTrigger: { trigger: contactTitle, start: 'top 82%' },
   });
   // Finale, as in the reference reel: the crew circles the closing question
-  if (window.Agents) {
-    ScrollTrigger.create({ trigger: contactTitle, start: 'top 60%', once: true, onEnter: () => Agents.ring(contactTitle) });
-  }
+
 
   /* Footer: the wordmark rises like a curtain as the page ends */
   gsap.from('.footer__word span', {
@@ -503,8 +485,7 @@
     once: true,
     onEnter: (batch) => {
       // One agent drops in to "build" the first element of each group
-      if (window.Agents && !batch[0].closest('#work')) Agents.touch(batch[0]);
-      gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true, delay: window.Agents ? 0.3 : 0 });
+      gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true });
     },
   });
 
@@ -532,6 +513,17 @@
       onToggle: (self) => { if (self.isActive) setCurrent(section.id); },
     });
   });
+
+  /* Agent tour: the page builds itself and scrolls to the end (see agents.js) */
+  if (window.Agents) {
+    Agents.tour({
+      roots: ['.topbar__inner', 'main', '.footer'],
+      custom: new Map(heroSteps.map((st) => [st.el, st.reveal])),
+      prepare: hideHero,
+      finale: document.querySelector('.contact__email'),
+      scroll: (y) => (lenis ? lenis.scrollTo(y, { immediate: true, force: true }) : window.scrollTo(0, y)),
+    });
+  }
 
   // Fonts change line lengths and therefore pin distances
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());

@@ -655,52 +655,89 @@ html.lenis, html.lenis body { height: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* ---------- Agent swarm (motion path only; elements are injected by agents.js) ---------- */
-/* body is the containing block, so the agent layer spans the whole page and clips agents that fly off the edge */
-body { position: relative; }
-.agents-layer { position: absolute; inset: 0; overflow: hidden; z-index: 60; pointer-events: none; }
-.agent { position: absolute; left: 0; top: 0; will-change: transform; }
-.agent svg { display: block; width: 15px; height: 21px; filter: drop-shadow(0 2px 5px rgb(0 0 0 / .35)); }
-.agent path { fill: var(--c); stroke: #0d0d10; stroke-width: 1.2; stroke-linejoin: round; }
-.agent span {
-  position: absolute; left: 13px; top: 17px; white-space: nowrap;
-  font: 500 10.5px/1 var(--mono); letter-spacing: .02em;
-  padding: 3px 6px 4px; border-radius: 4px; background: var(--c); color: #0d0d10;
+/* ---------- Agent tour (motion path only; injected by agents.js) ---------- */
+.tour-hidden { visibility: hidden !important; }
+.tour { position: fixed; inset: 0; z-index: 48; pointer-events: none; overflow: hidden; --bp: #3b82f6; }
+.tour__ruler { position: absolute; opacity: 0; transition: opacity .4s ease; }
+.tour.is-on .tour__ruler { opacity: 1; }
+.tour__ruler--x {
+  left: 0; right: 0; top: 64px; height: 14px;
+  background:
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--bp) 70%, transparent) 0 1px, transparent 1px 100px) 0 100% / 100% 14px no-repeat,
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--bp) 45%, transparent) 0 1px, transparent 1px 10px) 0 100% / 100% 5px no-repeat,
+    color-mix(in srgb, var(--bg) 80%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--bp) 45%, transparent);
 }
-.bp {
-  position: absolute; border: 1px dashed var(--c); border-radius: 3px;
-  background: color-mix(in srgb, var(--c) 6%, transparent);
+.tour__ruler--y {
+  left: 0; top: 78px; bottom: 0; width: 14px;
+  background:
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--bp) 70%, transparent) 0 1px, transparent 1px 100px) 100% 0 / 14px 100% no-repeat,
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--bp) 45%, transparent) 0 1px, transparent 1px 10px) 100% 0 / 5px 100% no-repeat,
+    color-mix(in srgb, var(--bg) 80%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--bp) 45%, transparent);
 }
-.bp i { position: absolute; width: 6px; height: 6px; background: var(--bg); border: 1px solid var(--c); }
-.bp i:nth-child(1) { left: -4px; top: -4px; }
-.bp i:nth-child(2) { right: -4px; top: -4px; }
-.bp i:nth-child(3) { left: -4px; bottom: -4px; }
-.bp i:nth-child(4) { right: -4px; bottom: -4px; }
-.bp b {
-  position: absolute; left: -1px; top: -19px; white-space: nowrap;
-  font: 500 10px/1 var(--mono); padding: 3px 6px 4px; border-radius: 3px 3px 3px 0;
-  background: var(--c); color: #0d0d10;
-}
+.tour__agent { position: absolute; left: 0; top: 0; will-change: transform; }
+.tour__agent svg { display: block; width: 13px; height: 18px; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .4)); }
+.tour__agent path { fill: var(--c); stroke: rgb(255 255 255 / .85); stroke-width: 1; stroke-linejoin: round; }
+.tour:not(.is-on) .tour__crew { opacity: 0; transition: opacity .6s ease .4s; }
 
-.build-pill {
-  position: fixed; left: 50%; bottom: 18px; z-index: 55; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 8px 7px 14px; border-radius: 999px;
-  background: color-mix(in srgb, var(--ink) 90%, transparent); color: var(--bg);
-  font: 500 12px/1 var(--mono); white-space: nowrap; box-shadow: 0 10px 30px rgb(0 0 0 / .25);
-  backdrop-filter: blur(8px);
+/* Guides: full-bleed lines along the edges of the box being built */
+.tg { position: absolute; background: color-mix(in srgb, var(--bp) 55%, transparent); }
+.tg--h { left: 0; right: 0; top: 0; height: 1px; }
+.tg--v { top: 0; bottom: 0; left: 0; width: 1px; }
+
+/* Blueprint box: dragged out by an agent, then locked */
+.tb { position: absolute; border: 1px solid var(--bp); background: color-mix(in srgb, var(--bp) 7%, transparent); }
+.tb.is-locked { border-width: 1.5px; }
+.tb i { position: absolute; width: 7px; height: 7px; background: #fff; border: 1px solid var(--bp); }
+.tb i:nth-child(1) { left: -4px; top: -4px; }
+.tb i:nth-child(2) { right: -4px; top: -4px; }
+.tb i:nth-child(3) { left: -4px; bottom: -4px; }
+.tb i:nth-child(4) { right: -4px; bottom: -4px; }
+.tb em {
+  position: absolute; left: 50%; bottom: -22px; transform: translateX(-50%); white-space: nowrap;
+  font: 500 10px/1 var(--mono); font-style: normal; padding: 3px 6px 4px; border-radius: 3px;
+  background: var(--bp); color: #fff;
 }
-.build-pill__dot { width: 7px; height: 7px; border-radius: 50%; background: #52d6b0; animation: pulse 1s ease-in-out infinite; }
-.build-pill.is-done .build-pill__dot { animation: none; }
-@keyframes pulse { 50% { opacity: .25; } }
-.build-pill__btn {
-  border: 0; border-radius: 999px; padding: 6px 11px; cursor: pointer;
-  font: 500 11.5px/1 var(--mono); background: var(--accent); color: var(--on-accent);
-  transition: transform .2s var(--ease);
+.tb u { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); font: 600 14px/1 var(--mono); text-decoration: none; color: var(--bp); opacity: 0; }
+.tb.is-locked u { opacity: 1; animation: caret .5s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.tb s { position: absolute; inset: 0; background: color-mix(in srgb, #64748b 55%, transparent); opacity: 0; transition: opacity .2s ease; }
+.tb s::after { content: ""; position: absolute; left: 50%; top: 50%; width: 22px; height: 16px; transform: translate(-50%, -50%); border: 1.5px solid rgb(255 255 255 / .7); border-radius: 2px; }
+.tb.is-locked s { opacity: 1; }
+
+/* How content arrives once its box is locked */
+.tour-type { animation: tour-type .5s steps(14, end) both; }
+@keyframes tour-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.tour-fill { animation: tour-fill .55s ease both; }
+@keyframes tour-fill { from { clip-path: inset(0 0 100% 0); filter: brightness(1.6) saturate(.4); } to { clip-path: inset(0 0 0 0); filter: none; } }
+
+/* Status bar */
+.tour-bar {
+  position: fixed; left: 50%; bottom: 18px; z-index: 55; transform: translate(-50%, 30px);
+  display: flex; align-items: center; gap: 12px; white-space: nowrap;
+  padding: 6px 6px 6px 10px; border-radius: 12px;
+  background: color-mix(in srgb, #111318 92%, transparent); color: #e8eaf0;
+  border: 1px solid rgb(255 255 255 / .08);
+  font: 500 11.5px/1 var(--mono); box-shadow: 0 12px 34px rgb(0 0 0 / .35); backdrop-filter: blur(10px);
+  opacity: 0; transition: opacity .4s ease, transform .5s var(--ease);
 }
-.build-pill__btn:active { transform: scale(.96); }
-.build-pill:not(.is-done) .build-pill__text { padding-right: 6px; }
+.tour-bar.is-on { opacity: 1; transform: translate(-50%, 0); }
+.tour-bar__avatars { display: flex; }
+.tour-bar__avatars i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); border: 2px solid #111318; margin-left: -5px; }
+.tour-bar__avatars i:first-child { margin-left: 0; }
+.tour-bar__progress { width: 90px; height: 3px; border-radius: 3px; background: rgb(255 255 255 / .12); overflow: hidden; }
+.tour-bar__progress b { display: block; height: 100%; background: #3b82f6; transform-origin: left; transform: scaleX(0); transition: transform .3s ease; }
+.tour-bar__state { padding: 5px 9px; border-radius: 7px; background: #2563eb; color: #fff; }
+.tour-bar__btn {
+  border: 0; border-radius: 7px; padding: 5px 10px; cursor: pointer; font: inherit;
+  background: rgb(255 255 255 / .1); color: #e8eaf0; transition: background-color .2s ease;
+}
+.tour-bar__btn:hover { background: rgb(255 255 255 / .2); }
+.tour-bar.is-done .tour-bar__btn { background: #2563eb; color: #fff; }
 @media (max-width: 760px) {
-  .agent span { font-size: 9.5px; }
-  .build-pill { bottom: 12px; font-size: 11px; }
+  .tour-bar { bottom: 12px; gap: 8px; font-size: 10.5px; }
+  .tour-bar__progress { width: 44px; }
+  .tour-bar__avatars { display: none; }
+  .tour__ruler { display: none; }
 }
