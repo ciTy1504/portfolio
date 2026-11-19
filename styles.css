@@ -512,9 +512,7 @@ html.lenis, html.lenis body { height: auto; }
 .tile--paper .project__links { margin-top: 20px; }
 .tile--photo-e { grid-column: 8 / span 5; }
 .tile--photo-e img { object-position: 50% 45%; }
-/* Security Bootcamp: two photos and the talk share a row */
-.tile--photo-a { grid-column: 1 / span 4; }
-.tile--photo-b { grid-column: 5 / span 4; }
+.tile--photo-b { grid-column: 1 / span 7; }
 .tile--talk { grid-column: 1 / span 5; background: var(--surface); padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; align-items: flex-start; }
 .tile--talk .link-arrow { margin-top: auto; padding-top: 24px; }
 /* Keep the hand-cropped 4:3 frame intact: exact ratio, no parallax zoom */
@@ -523,15 +521,15 @@ html.lenis, html.lenis body { height: auto; }
 .tile--photo-d img { object-position: 50% 55%; }
 .tile--cyseex { grid-column: 6 / span 7; background: var(--accent-soft); padding: clamp(24px, 3.4vw, 44px); display: flex; flex-direction: column; align-items: flex-start; }
 .tile--cyseex .link-arrow { margin-top: auto; padding-top: 24px; }
-.tile--event { grid-column: 9 / span 4; background: var(--surface); padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; align-items: flex-start; }
+.tile--event { grid-column: 8 / span 5; background: var(--surface); padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; align-items: flex-start; }
 .tile--photo { min-height: clamp(280px, 32vw, 440px); background: var(--surface); position: relative; }
 .tile--photo picture { position: absolute; inset: 0; }
 .tile--photo img { width: 100%; height: 100%; object-fit: cover; }
 .motion .tile--photo img { scale: 1.18; }
 .tile.tile--photo-c img, .motion .tile.tile--photo-c img { object-position: 50% 50%; scale: 1; transform: none; }
-.tile--photo-a img { object-position: 50% 35%; }
 .tile--photo-b img { object-position: 72% 50%; }
 .tile__label { display: flex; align-items: center; gap: 10px; font-size: .88rem; font-weight: 500; color: var(--muted); }
+.badge.badge--ghost { background: none; color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .badge { font-family: var(--mono); font-size: .7rem; letter-spacing: .02em; padding: .2em .55em; border-radius: var(--r-tag); background: var(--accent); color: var(--on-accent); }
 .paper__title {
   margin-top: auto; padding-top: 48px;
@@ -547,7 +545,7 @@ html.lenis, html.lenis body { height: auto; }
 .tile--event .project__links .link-arrow { margin-top: 0; padding-top: 0; }
 .link-btn { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; font-weight: 500; }
 @media (max-width: 860px) {
-  .tile--paper, .tile--photo-a, .tile--photo-b, .tile--photo-e, .tile--event, .tile--talk, .tile--photo-c, .tile--photo-d, .tile--cyseex { grid-column: 1 / -1; }
+  .tile--paper, .tile--photo-b, .tile--photo-e, .tile--event, .tile--talk, .tile--photo-c, .tile--photo-d, .tile--cyseex { grid-column: 1 / -1; }
   .tile--photo { min-height: 260px; }
 }
 
